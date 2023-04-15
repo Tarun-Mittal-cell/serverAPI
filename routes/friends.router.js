@@ -7,6 +7,7 @@ const friendsRouter = express.Router();
 
 friendsRouter.use((req, res, next) => {
     console.log('ip-address:', req.ip);
+    next();
 });
 
 friendsRouter.post('/', friendsController.postFriend);
