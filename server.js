@@ -1,12 +1,15 @@
 const express = require('express');
+const path = require('path');
 
 const friendsRouter = require('./routes/friends.router');
 const messagesRouter = require('./routes/messages.router');
 
 const app = express();
 
-const PORT = 3000;
+app.set('view engine', 'hbs');
+app.set('views', path.join(__dirname, 'views'));
 
+const PORT = 3000;
 
 
 //middleware - handles all requests
@@ -18,8 +21,15 @@ app.use((req,res,next) => {
 
 });
 
+app.use('/site', express.static(path.join(__dirname,'public'))); //serves the frontend
 app.use(express.json()); //automatically parses the req.body to json
 
+app.get('/', (req, res) => {
+    res.render('index', {
+        title: 'My friends are VERYY Clever',
+        caption: 'Let\'s go skiing',
+    });
+} );
 app.use('/friends', friendsRouter);
 app.use('/messages', messagesRouter);
 
